@@ -18,9 +18,9 @@ jobs:
       - name: Extract version
         id: extractversion
         run: |
-        curl https://archive.physionet.org/physiotools/wfdb.tar.gz | tar xvz
-        VERSION=$(basename wfdb-* | cut -c 6-)
-        echo ::set-output name=version::${VERSION}
+          curl https://archive.physionet.org/physiotools/wfdb.tar.gz | tar xvz
+          VERSION=$(basename wfdb-* | cut -c 6-)
+          echo ::set-output name=version::${VERSION}
         
       - name: Login to DockerHub
         uses: docker/login-action@v1 
