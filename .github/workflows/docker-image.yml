@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Extract version
+        id: version
+        run: |
+          curl https://archive.physionet.org/physiotools/wfdb.tar.gz | tar xvz
+          VERSION=$(basename wfdb-* | cut -c 6-)
+          echo ::set-output name=version::${VERSION}
+      
+      - name: Build & Push the Docker image
+        uses: docker/build-push-action@v2.0.1
+        with:
+          tags: |
+            wfdb:latest
+            wfdb:${{ steps.version.outputs.version }}
+      
