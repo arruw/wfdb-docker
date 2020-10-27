@@ -1,6 +1,8 @@
 # WFDB Software Package
 ## Automated Daily Docker Build
 
+![Docker Image CI](https://github.com/matjazmav/wfdb-docker/workflows/Docker%20Image%20CI/badge.svg?branch=master)
+
 Get the image:
 ```bash
 docker pull matjazmav/wfdb
