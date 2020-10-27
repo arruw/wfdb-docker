@@ -9,3 +9,7 @@ RUN curl https://archive.physionet.org/physiotools/wfdb.tar.gz | tar xvz && \
   ./configure && \
   make install && \
   make check
+
+WORKDIR /workdir
+
+VOLUME /workdir
