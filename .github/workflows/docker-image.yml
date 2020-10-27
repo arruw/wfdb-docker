@@ -15,23 +15,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         
+      - name: Extract version
+        id: extractversion
+        run: |
+        curl https://archive.physionet.org/physiotools/wfdb.tar.gz | tar xvz
+        VERSION=$(basename wfdb-* | cut -c 6-)
+        echo ::set-output name=version::${VERSION}
+        
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
           username: matjazmav
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Extract version
-        id: version
-        run: |
-          curl https://archive.physionet.org/physiotools/wfdb.tar.gz | tar xvz
-          VERSION=$(basename wfdb-* | cut -c 6-)
-          echo ::set-output name=version::${VERSION}
-      
+
       - name: Build & Push the Docker image
         uses: docker/build-push-action@v2.0.1
         with:
           tags: |
             matjazmav/wfdb:latest
-            matjazmav/wfdb:${{ steps.version.outputs.version }}
+            matjazmav/wfdb:${{ steps.extractversion.outputs.version }}
       
