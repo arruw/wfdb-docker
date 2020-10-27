@@ -18,7 +18,6 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
-          registry: hub.docker.com
           username: matjazmav
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
@@ -33,6 +32,6 @@ jobs:
         uses: docker/build-push-action@v2.0.1
         with:
           tags: |
-            hub.docker.com/matjazmav/wfdb:latest
-            hub.docker.com/matjazmav/wfdb:${{ steps.version.outputs.version }}
+            matjazmav/wfdb:latest
+            matjazmav/wfdb:${{ steps.version.outputs.version }}
       
